@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batch Prediction Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Batch Prediction Results</h1>
+        <a href="/" class="back-button">Back to Home</a>
+
+        {% if predictions %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Merchant</th>
+                        <th>Predicted Category</th>
+                        <th>Confidence</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in predictions %}
+                    <tr>
+                        <td>{{ p.Description }}</td>
+                        <td>{{ p.Amount }}</td>
+                        <td>{{ p.Merchant }}</td>
+                        <td class="highlight">{{ p.Predicted_Category }}</td>
+                        <td>{{ p.Confidence*100:.2f }}%</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No predictions to display.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

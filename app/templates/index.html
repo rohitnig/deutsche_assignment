@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Categorizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Transaction Categorizer</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <div class="card">
+            <h2>Predict Single Transaction</h2>
+            <form action="/" method="POST">
+                <label for="description">Description:</label>
+                <input type="text" id="description" name="description" required>
+
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" name="amount" step="0.01" required>
+
+                <label for="merchant">Merchant:</label>
+                <input type="text" id="merchant" name="merchant" required>
+
+                <button type="submit">Predict Category</button>
+            </form>
+
+            {% if prediction_result %}
+            <div class="prediction-output">
+                <h3>Prediction:</h3>
+                <p><strong>Description:</strong> {{ prediction_result.description }}</p>
+                <p><strong>Amount:</strong> {{ prediction_result.amount }}</p>
+                <p><strong>Merchant:</strong> {{ prediction_result.merchant }}</p>
+                <p><strong>Predicted Category:</strong> <span class="highlight">{{ prediction_result.category }}</span></p>
+                <p><strong>Confidence:</strong> {{ prediction_result.confidence }}</p>
+                <p><strong>Predicted Cluster ID:</strong> <span class="highlight">{{ prediction_result.cluster_id }}</span></p> {# ADD THIS LINE #}
+
+                <hr>
+                <h3>Human-in-the-Loop (Add/Correct Data)</h3>
+                <p>If the prediction is incorrect or you want to add new training data:</p>
+                <form action="/add_data" method="POST">
+                    <input type="hidden" name="description" value="{{ prediction_result.description }}">
+                    <input type="hidden" name="amount" value="{{ prediction_result.amount }}">
+                    <input type="hidden" name="merchant" value="{{ prediction_result.merchant }}">
+                    <input type="hidden" name="cluster_id" value="{{ prediction_result.cluster_id }}"> {# OPTIONAL: Store cluster for future analysis #}
+
+                    <label for="correct_category">Correct Category (or New Category):</label>
+                    <input type="text" id="correct_category" name="category" value="{{ prediction_result.category }}" required>
+                    <button type="submit">Add to Training Data</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <h2>Upload Transactions for Batch Prediction</h2>
+            <form action="/" method="POST" enctype="multipart/form-data">
+                <label for="batch_predict_file">Upload CSV/Excel File:</label>
+                <input type="file" id="batch_predict_file" name="batch_predict_file" accept=".csv, .xlsx" required>
+                <button type="submit">Upload & Predict Batch</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Upload New Training Data & Retrain</h2>
+            <form action="/upload_train_data" method="POST" enctype="multipart/form-data">
+                <label for="train_data_file">Upload updated transactions.xlsx / .csv:</label>
+                <input type="file" id="train_data_file" name="train_data_file" accept=".csv, .xlsx" required>
+                <button type="submit">Upload & Retrain Model</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Explore Unsupervised Clusters</h2>
+            <form action="/unsupervised_explore" method="POST">
+                <label for="num_clusters_explore">Number of Clusters (K):</label>
+                <input type="number" id="num_clusters_explore" name="num_clusters_explore" value="5" min="2" required>
+                <button type="submit">Analyze & Explore Clusters</button>
+            </form>
+            <p style="margin-top:10px;">This will perform clustering on your current training data descriptions and show the results.</p>
+        </div>
+
+    </div>
+</body>
+</html>

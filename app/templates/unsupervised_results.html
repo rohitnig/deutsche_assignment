@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unsupervised Clustering Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .cluster-section {
+            background-color: #f0f8ff;
+            border: 1px solid #cceeff;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .cluster-section h3 {
+            color: #0056b3;
+            margin-top: 0;
+            border-bottom: 1px solid #cceeff;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        .top-terms {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Unsupervised Clustering Results (K={{ num_clusters_explore }})</h1>
+        <a href="/" class="back-button">Back to Home</a>
+
+        {% if top_terms_display %}
+            <h2>Top Terms per Cluster:</h2>
+            {% for cluster_id, terms in top_terms_display.items() %}
+                <div class="cluster-section">
+                    <h3>Cluster {{ cluster_id }}</h3>
+                    <p class="top-terms">Top Terms: {{ terms | join(', ') }}</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Merchant</th>
+                                <th>Original Category</th>
+                                <th>Cluster ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in results_data %}
+                                {% if item.Cluster_ID == cluster_id %}
+                                    <tr>
+                                        <td>{{ item.Description }}</td>
+                                        <td>{{ item.Amount }}</td>
+                                        <td>{{ item.Merchant }}</td>
+                                        <td>{{ item.Category }}</td>
+                                        <td>{{ item.Cluster_ID }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No clustering results to display or an error occurred.</p>
+        {% endif %}
+    
+    </div>
+</body>
+</html>
