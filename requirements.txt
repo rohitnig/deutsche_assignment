@@ -13,58 +13,5 @@ xgboost      # The gradient boosting library
 
 # Natural Language Processing
 spacy        # For advanced text processing and word embeddings
-
-# --- Additions for Enhanced ML Solution ---
-
-# For Advanced Hyperparameter Tuning (e.g., Bayesian Optimization)
-# Choose one of these based on your preference for hyperparameter optimization:
-# optuna
-# hyperopt
-
-# For Experiment Tracking and Model Versioning (MLOps)
-# Choose one of these for tracking experiments, managing models, etc.:
-# mlflow # A popular choice for MLOps platform
-# dvc    # For data version control, can be used with Git
-# wandb  # Weights & Biases for experiment tracking and visualization
-
-# For more advanced text preprocessing (e.g., stop word removal, stemming via NLTK)
 nltk     # If you plan to use NLTK's stop words, stemmers, etc.
-
-# Flask UI (already included in previous requirements)
 Flask
-=======
-# requirements.txt
-
-# Core Data Handling
-pandas
-openpyxl # For reading/writing .xlsx files with pandas
-numpy    # Fundamental for numerical operations
-xlrd
-xlwt
-
-# Machine Learning Core
-scikit-learn # For various ML utilities, transformers, and model selection
-xgboost      # The gradient boosting library
-
-# Natural Language Processing
-spacy        # For advanced text processing and word embeddings
-
-# --- Additions for Enhanced ML Solution ---
-
-# For Advanced Hyperparameter Tuning (e.g., Bayesian Optimization)
-# Choose one of these based on your preference for hyperparameter optimization:
-# optuna
-# hyperopt
-
-# For Experiment Tracking and Model Versioning (MLOps)
-# Choose one of these for tracking experiments, managing models, etc.:
-# mlflow # A popular choice for MLOps platform
-# dvc    # For data version control, can be used with Git
-# wandb  # Weights & Biases for experiment tracking and visualization
-
-# For more advanced text preprocessing (e.g., stop word removal, stemming via NLTK)
-nltk     # If you plan to use NLTK's stop words, stemmers, etc.
-
-# Flask UI (already included in previous requirements)
-Flask
-werkzeug   # Often installed with Flask, but good to be explicit
