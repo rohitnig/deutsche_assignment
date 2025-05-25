@@ -13,7 +13,6 @@ This project provides a machine learning solution for categorizing financial tra
     * [Python Environment Setup](#python-environment-setup)
 4.  [How to Run](#how-to-run)
     * [Option 1: Run Directly with Python (Development/Testing)](#option-1-run-directly-with-python-developmenttesting)
-    * [Option 2: Run with Docker (Recommended for Deployment)](#option-2-run-with-docker-recommended-for-deployment)
 5.  [Usage Guide (Web UI)](#usage-guide-web-ui)
     * [Predict Single Transaction](#predict-single-transaction)
     * [Upload Transactions for Batch Prediction](#upload-transactions-for-batch-prediction)
@@ -36,7 +35,6 @@ This project provides a machine learning solution for categorizing financial tra
     * Add/correct individual transaction categories to improve the training dataset (Human-in-the-Loop).
     * Explore unsupervised clusters to gain insights into data patterns.
 * **Modular Design:** Separated logic for utilities, training, prediction, and unsupervised analysis.
-* **Reproducible Environment:** `requirements.txt` for Python dependencies and `Dockerfile` for containerized deployment.
 
 ## Project Structure
 ```
@@ -63,8 +61,6 @@ transaction_categorizer/
 │   │   └── unsupervised_results.html
 │   └── static/               # Static files (CSS)
 │       └── style.css
-├── .dockerignore             # Files/folders to ignore when building Docker image
-├── Dockerfile                # Instructions for building the Docker image
 └── requirements.txt          # Python dependencies
 ```
 
@@ -75,7 +71,6 @@ transaction_categorizer/
 * **Python 3.8+** (Recommended to use a virtual environment)
 * **pip** (Python package installer)
 * **Git** (for cloning the repository)
-* **Docker Desktop** (if you choose to run with Docker)
 
 ### Clone the Repository
 
@@ -141,26 +136,6 @@ This method runs the Flask application directly using your local Python environm
     The application will start, typically accessible at `http://127.0.0.1:5000/`.
     * If models are not found (`models/` folder is empty or files are missing), the app will attempt an initial training using `data/transactions.xls`.
 
-### Option 2: Run with Docker (Recommended for Deployment)
-
-This method builds a self-contained Docker image of your application, ensuring consistent execution across different environments.
-
-1.  **Ensure Docker Desktop is running** on your machine.
-2.  **Navigate to the project root directory** (where `Dockerfile` is located):
-    ```bash
-    cd transaction_categorizer
-    ```
-3.  **Build the Docker image:**
-    ```bash
-    docker build -t transaction-categorizer .
-    ```
-    This might take a few minutes the first time.
-4.  **Run the Docker container:**
-    ```bash
-    docker run -p 5000:5000 transaction-categorizer
-    ```
-    The application will start inside the Docker container, accessible at `http://127.0.0.1:5000/` in your web browser.
-    * The Docker container will automatically perform initial model training if the models are not present within the image (first run).
 
 ## Usage Guide (Web UI)
 
@@ -211,11 +186,11 @@ Access the application in your browser at `http://127.0.0.1:5000/`.
 * **XGBoost:** Gradient Boosting model for supervised classification.
 * **SpaCy:** Natural Language Processing library for text preprocessing and embeddings.
 * **NumPy:** Fundamental package for numerical computing.
-* **Docker:** For containerization and reproducible deployment.
 * **xlwt:** Python library for writing to .xls Excel files.
 
 ## Future Enhancements
 
+* **Docker:** For containerization and reproducible deployment.
 * **Model Monitoring:** Implement logging and dashboards to track model performance over time (e.g., accuracy, drift detection).
 * **API Endpoints:** Create dedicated REST API endpoints for programmatic access to prediction and retraining.
 * **Advanced Unsupervised Visualization:** Implement interactive visualizations (e.g., t-SNE plots) for clusters.
